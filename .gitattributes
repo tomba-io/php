@@ -1,0 +1,6 @@
+/.gitattributes export-ignore
+/..editorconfig export-ignore
+/.gitignore export-ignore
+/composer.lock export-ignore
+/changelog.md export-ignore
+/readme.md export-ignore
