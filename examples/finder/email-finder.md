@@ -1,3 +1,4 @@
+```php
 <?php
 
 use Tomba\Client;
@@ -12,4 +13,5 @@ $client
 
 $finder = new Finder($client);
 
-$result = $finder->emailFinder('stripe.com', 'Moskoz', 'Dustin');
+$result = $finder->emailFinder('stripe.com', 'Moskoz', 'Dustin');.
+```

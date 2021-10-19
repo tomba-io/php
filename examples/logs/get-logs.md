@@ -1,3 +1,4 @@
+```php
 <?php
 
 use Tomba\Client;
@@ -13,3 +14,4 @@ $client
 $logs = new Logs($client);
 
 $result = $logs->getLogs();
+```

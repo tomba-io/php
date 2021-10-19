@@ -68,41 +68,22 @@ class LeadsLists extends Service
     }
 
     /**
-     * Update File
+     * Update List ID
      *
-     * Update file by its unique ID. Only users with write permissions have access
-     * to update this resource.
+     * Update the fields of a list using id.
      *
-     * @param string $fileId
-     * @param array $read
-     * @param array $write
+     * @param string $id
      * @throws TombaException
      * @return array
      */
-    public function updateFile(string $fileId, array $read, array $write): array
+    public function updateListId(string $id): array
     {
-        if (!isset($fileId)) {
-            throw new TombaException('Missing required parameter: "fileId"');
+        if (!isset($id)) {
+            throw new TombaException('Missing required parameter: "id"');
         }
 
-        if (!isset($read)) {
-            throw new TombaException('Missing required parameter: "read"');
-        }
-
-        if (!isset($write)) {
-            throw new TombaException('Missing required parameter: "write"');
-        }
-
-        $path   = str_replace(['{fileId}'], [$fileId], '/leads_lists/{id}');
+        $path   = str_replace(['{id}'], [$id], '/leads_lists/{id}');
         $params = [];
-
-        if (!is_null($read)) {
-            $params['read'] = $read;
-        }
-
-        if (!is_null($write)) {
-            $params['write'] = $write;
-        }
 
         return $this->client->call(Client::METHOD_PUT, $path, [
             'content-type' => 'application/json',

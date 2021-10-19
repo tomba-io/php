@@ -1,3 +1,4 @@
+```php
 <?php
 
 use Tomba\Client;
@@ -12,4 +13,5 @@ $client
 
 $leadsLists = new LeadsLists($client);
 
-$result = $leadsLists->updateFile('[FILE_ID]', [], []);
+$result = $leadsLists->updateListId('[List_ID]');
+```

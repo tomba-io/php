@@ -1,3 +1,4 @@
+```php
 <?php
 
 use Tomba\Client;
@@ -13,3 +14,4 @@ $client
 $leadsLists = new LeadsLists($client);
 
 $result = $leadsLists->getLists();
+```
