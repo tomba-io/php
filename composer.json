@@ -2,7 +2,7 @@
     "name": "tomba-io/php",
     "description": "Tomba.io is an Email Finder for B2B sales and email marketing",
     "type": "library",
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "keywords": ["email", "Email Finder", "Email Verifier", "B2B", "email marketing"],
     "homepage": "https://tomba.io/",
     "support": {
