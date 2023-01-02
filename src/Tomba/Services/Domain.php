@@ -29,9 +29,12 @@ class Domain extends Service
             throw new TombaException('Missing required parameter: "domain"');
         }
 
-        $path   = str_replace(['{domain}'], [$domain], '/domain-search/{domain}');
+        $path   = str_replace([], [], '/domain-search');
         $params = [];
 
+        if (!is_null($domain)) {
+            $params['domain'] = $domain;
+        }
         if (!is_null($page)) {
             $params['page'] = $page;
         }
