@@ -33,7 +33,7 @@ class Client
      *
      * @var array
      */
-    protected $headers = [
+    public $headers = [
         'content-type' => '',
         'x-sdk-version' => 'tomba:php:v1.0.0',
     ];
@@ -107,7 +107,7 @@ class Client
     public function addHeader($key, $value)
     {
         $this->headers[strtolower($key)] = $value;
-        
+
         return $this;
     }
 

@@ -21,9 +21,9 @@ class Domain extends Service
      * @param int $limit
      * @param string $department
      * @throws TombaException
-     * @return array
+     * @return array|string
      */
-    public function domainSearch(string $domain, int $page = null, int $limit = null, string $department = null): array
+    public function domainSearch(string $domain, int $page = null, int $limit = null, string $department = null): array | string
     {
         if (!isset($domain)) {
             throw new TombaException('Missing required parameter: "domain"');
