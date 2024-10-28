@@ -33,7 +33,7 @@ class Client
      *
      * @var array
      */
-    public $headers = [
+    protected $headers = [
         'content-type' => '',
         'x-sdk-version' => 'tomba:php:v1.0.0',
     ];
