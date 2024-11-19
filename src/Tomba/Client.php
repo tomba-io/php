@@ -107,7 +107,7 @@ class Client
     public function addHeader($key, $value)
     {
         $this->headers[strtolower($key)] = $value;
-        
+
         return $this;
     }
 
