@@ -2,33 +2,33 @@
 
 namespace Tomba\Services;
 
-use Tomba\TombaException;
 use Tomba\Client;
 use Tomba\Service;
+use Tomba\TombaException;
 
 class Status extends Service
 {
     /**
-     * Domain status
+     * Domain Status
      *
-     * Returns domain status if is webmail or disposable.
+     * Returns domain status indicating if it is a webmail or disposable domain.
      *
-     * @param string $domain
+     * @see https://docs.tomba.io/api/domain#domain-status#domain-status
+     *
+     * @param string $domain Domain name to check
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function domainStatus(string $domain): array
     {
-        if (!isset($domain)) {
+        if (empty($domain)) {
             throw new TombaException('Missing required parameter: "domain"');
         }
 
-        $path   = str_replace([], [], '/domain-status');
+        $path   = '/domain-status';
         $params = [];
 
-        if (!is_null($domain)) {
-            $params['domain'] = $domain;
-        }
+        $params['domain'] = $domain;
 
         return $this->client->call(Client::METHOD_GET, $path, [
             'content-type' => 'application/json',
@@ -36,27 +36,26 @@ class Status extends Service
     }
 
     /**
-     * get Company Autocomplete
+     * Company Autocomplete
      *
-     * Company Autocomplete is an API that lets you auto-complete company names
-     * and retrieve logo and domain information.
+     * Auto-complete company names and retrieve logo and domain information.
      *
-     * @param string $query
+     * @see https://docs.tomba.io/api/domain#domain-status#company-autocomplete
+     *
+     * @param string $query Company name search query
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function autoComplete(string $query): array
     {
-        if (!isset($query)) {
+        if (empty($query)) {
             throw new TombaException('Missing required parameter: "query"');
         }
 
-        $path   = str_replace([], [], '/domains-suggestion');
+        $path   = '/domain-suggestions';
         $params = [];
 
-        if (!is_null($query)) {
-            $params['query'] = $query;
-        }
+        $params['query'] = $query;
 
         return $this->client->call(Client::METHOD_GET, $path, [
             'content-type' => 'application/json',

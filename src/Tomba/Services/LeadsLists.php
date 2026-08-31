@@ -2,23 +2,25 @@
 
 namespace Tomba\Services;
 
-use Tomba\TombaException;
 use Tomba\Client;
 use Tomba\Service;
+use Tomba\TombaException;
 
 class LeadsLists extends Service
 {
     /**
      * Get Leads Lists
      *
-     * Returns a list of leads lists..
+     * Returns a list of leads lists.
      *
+     * @see https://docs.tomba.io/api/leads-lists#list-leads-lists
+     *
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function getLists(): array
     {
-        $path   = str_replace([], [], '/leads_lists/{id}');
+        $path   = '/leads_lists';
         $params = [];
 
         return $this->client->call(Client::METHOD_GET, $path, [
@@ -27,21 +29,23 @@ class LeadsLists extends Service
     }
 
     /**
-     * Delete List ID
+     * Delete List
      *
-     * Delete a specific list by passing id.
+     * Delete a specific leads list by ID.
      *
-     * @param string $id
+     * @see https://docs.tomba.io/api/leads-lists#delete-leads-list
+     *
+     * @param string $id List ID
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function deleteListId(string $id): array
     {
-        if (!isset($id)) {
+        if (empty($id)) {
             throw new TombaException('Missing required parameter: "id"');
         }
 
-        $path   = str_replace(['{id}'], [$id], '/leads_lists/{id}');
+        $path = '/leads_lists/' . $id;
         $params = [];
 
         return $this->client->call(Client::METHOD_DELETE, $path, [
@@ -50,16 +54,18 @@ class LeadsLists extends Service
     }
 
     /**
-     * Create new List
+     * Create List
      *
-     * Create a new leads list with the name request parameter
+     * Create a new leads list with the name request parameter.
      *
+     * @see https://docs.tomba.io/api/leads-lists#create-leads-list
+     *
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function createList(): array
     {
-        $path   = str_replace([], [], '/leads_lists/{id}');
+        $path   = '/leads_lists';
         $params = [];
 
         return $this->client->call(Client::METHOD_POST, $path, [
@@ -68,21 +74,23 @@ class LeadsLists extends Service
     }
 
     /**
-     * Update List ID
+     * Update List
      *
-     * Update the fields of a list using id.
+     * Update the fields of a leads list by ID.
      *
-     * @param string $id
+     * @see https://docs.tomba.io/api/leads-lists#update-leads-list
+     *
+     * @param string $id List ID
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function updateListId(string $id): array
     {
-        if (!isset($id)) {
+        if (empty($id)) {
             throw new TombaException('Missing required parameter: "id"');
         }
 
-        $path   = str_replace(['{id}'], [$id], '/leads_lists/{id}');
+        $path = '/leads_lists/' . $id;
         $params = [];
 
         return $this->client->call(Client::METHOD_PUT, $path, [

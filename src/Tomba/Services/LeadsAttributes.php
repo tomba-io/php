@@ -2,23 +2,25 @@
 
 namespace Tomba\Services;
 
-use Tomba\TombaException;
 use Tomba\Client;
 use Tomba\Service;
+use Tomba\TombaException;
 
 class LeadsAttributes extends Service
 {
     /**
      * Get Lead Attributes
      *
-     * Returns a list of Lead Attributes.
+     * Returns a list of lead attributes.
      *
+     * @see https://docs.tomba.io/api/leads-attributes#list-attributes
+     *
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function getLeadAttributes(): array
     {
-        $path   = str_replace([], [], '/leads/attributes/{id}');
+        $path   = '/attributes';
         $params = [];
 
         return $this->client->call(Client::METHOD_GET, $path, [
@@ -29,19 +31,21 @@ class LeadsAttributes extends Service
     /**
      * Delete Lead Attribute
      *
-     * Delete a specific Attributes by passing id.
+     * Delete a specific attribute by ID.
      *
-     * @param string $id
+     * @see https://docs.tomba.io/api/lead-attributes#delete-a-lead-attribute
+     *
+     * @param string $id Attribute ID
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function deleteLeadAttribute(string $id): array
     {
-        if (!isset($id)) {
+        if (empty($id)) {
             throw new TombaException('Missing required parameter: "id"');
         }
 
-        $path   = str_replace(['{id}'], [$id], '/leads/attributes/{id}');
+        $path = '/attributes/' . $id;
         $params = [];
 
         return $this->client->call(Client::METHOD_DELETE, $path, [
@@ -52,14 +56,16 @@ class LeadsAttributes extends Service
     /**
      * Create Lead Attribute
      *
-     * Create a new Attributes with the name and type request parameter.
+     * Create a new attribute with the name and type request parameter.
      *
+     * @see https://docs.tomba.io/api/lead-attributes#create-a-lead-attribute
+     *
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function createLeadAttribute(): array
     {
-        $path   = str_replace([], [], '/leads/attributes/{id}');
+        $path   = '/attributes';
         $params = [];
 
         return $this->client->call(Client::METHOD_POST, $path, [
@@ -70,19 +76,21 @@ class LeadsAttributes extends Service
     /**
      * Update Lead Attribute
      *
-     * Update the fields of a Attributes using id.
+     * Update the fields of an attribute by ID.
      *
-     * @param string $id
+     * @see https://docs.tomba.io/api/lead-attributes#update-a-lead-attribute
+     *
+     * @param string $id Attribute ID
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function updateLeadAttribute(string $id): array
     {
-        if (!isset($id)) {
+        if (empty($id)) {
             throw new TombaException('Missing required parameter: "id"');
         }
 
-        $path   = str_replace(['{id}'], [$id], '/leads/attributes/{id}');
+        $path = '/attributes/' . $id;
         $params = [];
 
         return $this->client->call(Client::METHOD_PUT, $path, [

@@ -6,26 +6,25 @@ use Exception;
 
 class TombaException extends Exception
 {
-
-  /**
-   * @var mixed
-   */
+    /**
+     * @var mixed
+     */
     private $response;
 
-  /**
-   * @param String $message
-   * @param int $code
-   * @param mixed $response
-   */
+    /**
+     * @param String $message
+     * @param int $code
+     * @param mixed $response
+     */
     public function __construct($message = null, $code = 0, $response = null)
     {
         parent::__construct($message, $code);
         $this->response = $response;
     }
-  
-  /**
-   * @return mixed
-   */
+
+    /**
+     * @return mixed
+     */
     final public function getResponse()
     {
         return $this->response;

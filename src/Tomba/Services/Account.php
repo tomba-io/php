@@ -2,9 +2,9 @@
 
 namespace Tomba\Services;
 
-use Tomba\TombaException;
 use Tomba\Client;
 use Tomba\Service;
+use Tomba\TombaException;
 
 class Account extends Service
 {
@@ -13,12 +13,14 @@ class Account extends Service
      *
      * Returns information about the current account.
      *
+     * @see https://docs.tomba.io/api/account#get-account
+     *
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function getAccount(): array
     {
-        $path   = str_replace([], [], '/me');
+        $path   = '/me';
         $params = [];
 
         return $this->client->call(Client::METHOD_GET, $path, [

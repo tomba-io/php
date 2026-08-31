@@ -2,39 +2,39 @@
 
 namespace Tomba\Services;
 
-use Tomba\TombaException;
 use Tomba\Client;
 use Tomba\Service;
+use Tomba\TombaException;
 
 class Domain extends Service
 {
     /**
      * Domain Search
      *
-     * You can use this endpoint to show different browser icons to your users.
-     * The code argument receives the browser code as it appears in your user
-     * /account/sessions endpoint. Use width, height and quality arguments to
-     * change the output settings.
+     * Search emails by domain name. Returns all email addresses found for a given domain.
      *
-     * @param string $domain
-     * @param int $page
-     * @param int $limit
-     * @param string $department
+     * @see https://docs.tomba.io/api/finder#domain-search#domain-search
+     *
+     * @param string $domain Domain name to search
+     * @param int|null $page Page number for pagination
+     * @param int|null $limit Number of results per page
+     * @param string|null $department Filter by department
+     * @param bool|null $enrichMobile Whether to enrich mobile phone data
+     * @param string|null $webhookUrl Webhook URL for async notifications
+     * @return array|string API response
      * @throws TombaException
-     * @return array|string
      */
-    public function domainSearch(string $domain, int $page = null, int $limit = null, string $department = null): array | string
+    public function domainSearch(string $domain, int $page = null, int $limit = null, string $department = null, bool $enrichMobile = null, string $webhookUrl = null): array|string
     {
-        if (!isset($domain)) {
+        if (empty($domain)) {
             throw new TombaException('Missing required parameter: "domain"');
         }
 
-        $path   = str_replace([], [], '/domain-search');
+        $path   = '/domain-search';
         $params = [];
 
-        if (!is_null($domain)) {
-            $params['domain'] = $domain;
-        }
+        $params['domain'] = $domain;
+
         if (!is_null($page)) {
             $params['page'] = $page;
         }
@@ -45,6 +45,14 @@ class Domain extends Service
 
         if (!is_null($department)) {
             $params['department'] = $department;
+        }
+
+        if (!is_null($enrichMobile)) {
+            $params['enrich_mobile'] = $enrichMobile;
+        }
+
+        if (!is_null($webhookUrl)) {
+            $params['webhook_url'] = $webhookUrl;
         }
 
         return $this->client->call(Client::METHOD_GET, $path, [

@@ -6,26 +6,26 @@ use Tomba\Client;
 use Tomba\Service;
 use Tomba\TombaException;
 
-class Count extends Service
+class Similar extends Service
 {
     /**
-     * Email Count
+     * Similar Websites
      *
-     * Returns the total number of email addresses found for a given domain.
+     * Returns a list of websites similar to the given domain.
      *
-     * @see https://docs.tomba.io/api/finder#email-count#email-count
+     * @see https://docs.tomba.io/api/similar#similar-websites
      *
-     * @param string $domain Domain name to count emails for
+     * @param string $domain Domain name to find similar websites for
      * @return array API response
      * @throws TombaException
      */
-    public function emailCount(string $domain): array
+    public function websites(string $domain): array
     {
         if (empty($domain)) {
             throw new TombaException('Missing required parameter: "domain"');
         }
 
-        $path   = '/email-count';
+        $path   = '/similar';
         $params = [];
 
         $params['domain'] = $domain;

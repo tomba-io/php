@@ -6,26 +6,26 @@ use Tomba\Client;
 use Tomba\Service;
 use Tomba\TombaException;
 
-class Count extends Service
+class Technology extends Service
 {
     /**
-     * Email Count
+     * List Technologies
      *
-     * Returns the total number of email addresses found for a given domain.
+     * Returns the technologies used by a given domain.
      *
-     * @see https://docs.tomba.io/api/finder#email-count#email-count
+     * @see https://docs.tomba.io/api/domain#technology#list-technologies
      *
-     * @param string $domain Domain name to count emails for
+     * @param string $domain Domain name to retrieve technologies for
      * @return array API response
      * @throws TombaException
      */
-    public function emailCount(string $domain): array
+    public function list(string $domain): array
     {
         if (empty($domain)) {
             throw new TombaException('Missing required parameter: "domain"');
         }
 
-        $path   = '/email-count';
+        $path   = '/technology';
         $params = [];
 
         $params['domain'] = $domain;

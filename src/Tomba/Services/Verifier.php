@@ -2,29 +2,38 @@
 
 namespace Tomba\Services;
 
-use Tomba\TombaException;
 use Tomba\Client;
 use Tomba\Service;
+use Tomba\TombaException;
 
 class Verifier extends Service
 {
     /**
      * Email Verifier
      *
-     * verify the deliverability of an email address.
+     * Verify the deliverability of an email address.
      *
-     * @param string $email
+     * @see https://docs.tomba.io/api/verifier#email-verifier
+     *
+     * @param string $email Email address to verify
+     * @param string|null $webhookUrl Webhook URL for async notifications
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
-    public function emailVerifier(string $email): array
+    public function emailVerifier(string $email, string $webhookUrl = null): array
     {
-        if (!isset($email)) {
+        if (empty($email)) {
             throw new TombaException('Missing required parameter: "email"');
         }
 
-        $path   = str_replace(['{email}'], [$email], '/email-verifier/{email}');
+        $path   = '/email-verifier';
         $params = [];
+
+        $params['email'] = $email;
+
+        if (!is_null($webhookUrl)) {
+            $params['webhook_url'] = $webhookUrl;
+        }
 
         return $this->client->call(Client::METHOD_GET, $path, [
             'content-type' => 'application/json',

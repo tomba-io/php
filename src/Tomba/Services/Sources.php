@@ -2,9 +2,9 @@
 
 namespace Tomba\Services;
 
-use Tomba\TombaException;
 use Tomba\Client;
 use Tomba\Service;
+use Tomba\TombaException;
 
 class Sources extends Service
 {
@@ -13,18 +13,22 @@ class Sources extends Service
      *
      * Find email address source somewhere on the web.
      *
-     * @param string $email
+     * @see https://docs.tomba.io/api/sources#email-sources
+     *
+     * @param string $email Email address to find sources for
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function emailSources(string $email): array
     {
-        if (!isset($email)) {
+        if (empty($email)) {
             throw new TombaException('Missing required parameter: "email"');
         }
 
-        $path   = str_replace(['{email}'], [$email], '/email-sources/{email}');
+        $path   = '/email-sources';
         $params = [];
+
+        $params['email'] = $email;
 
         return $this->client->call(Client::METHOD_GET, $path, [
             'content-type' => 'application/json',

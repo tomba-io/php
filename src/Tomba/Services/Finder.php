@@ -2,50 +2,50 @@
 
 namespace Tomba\Services;
 
-use Tomba\TombaException;
 use Tomba\Client;
 use Tomba\Service;
+use Tomba\TombaException;
 
 class Finder extends Service
 {
     /**
      * Email Finder
      *
-     * generates or retrieves the most likely email address from a domain name, a
-     * first name and a last name.
+     * Generates or retrieves the most likely email address from a domain name,
+     * a first name and a last name.
      *
-     * @param string $domain
-     * @param string $firstName
-     * @param string $lastName
+     * @see https://docs.tomba.io/api/finder#email-finder
+     *
+     * @param string $domain Domain name
+     * @param string $firstName First name
+     * @param string $lastName Last name
+     * @param string|null $webhookUrl Webhook URL for async notifications
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
-    public function emailFinder(string $domain, string $firstName, string $lastName): array
+    public function emailFinder(string $domain, string $firstName, string $lastName, string $webhookUrl = null): array
     {
-        if (!isset($domain)) {
+        if (empty($domain)) {
             throw new TombaException('Missing required parameter: "domain"');
         }
 
-        if (!isset($firstName)) {
+        if (empty($firstName)) {
             throw new TombaException('Missing required parameter: "firstName"');
         }
 
-        if (!isset($lastName)) {
+        if (empty($lastName)) {
             throw new TombaException('Missing required parameter: "lastName"');
         }
 
-        $path   = str_replace([], [], '/email-finder');
+        $path   = '/email-finder';
         $params = [];
 
-        if (!is_null($firstName)) {
-            $params['first_name'] = $firstName;
-        }
+        $params['first_name'] = $firstName;
+        $params['last_name'] = $lastName;
+        $params['domain'] = $domain;
 
-        if (!is_null($lastName)) {
-            $params['last_name'] = $lastName;
-        }
-        if (!is_null($domain)) {
-            $params['domain'] = $domain;
+        if (!is_null($webhookUrl)) {
+            $params['webhook_url'] = $webhookUrl;
         }
 
         return $this->client->call(Client::METHOD_GET, $path, [
@@ -54,27 +54,30 @@ class Finder extends Service
     }
 
     /**
-     * Author finder
+     * Author Finder
      *
-     * This API endpoint generates or retrieves the most likely email address from a blog post url.
+     * Generates or retrieves the most likely email address from a blog post URL.
      *
-     * @param string $url
+     * @see https://docs.tomba.io/api/finder#author-finder
+     *
+     * @param string $url Blog post URL
+     * @param string|null $webhookUrl Webhook URL for async notifications
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
-    public function authorFinder(string $url): array
+    public function authorFinder(string $url, string $webhookUrl = null): array
     {
-        if (!isset($url)) {
+        if (empty($url)) {
             throw new TombaException('Missing required parameter: "url"');
         }
 
-
-        $path   = str_replace([], [], '/author-finder');
+        $path   = '/author-finder';
         $params = [];
 
-        
-        if (!is_null($url)) {
-            $params['url'] = $url;
+        $params['url'] = $url;
+
+        if (!is_null($webhookUrl)) {
+            $params['webhook_url'] = $webhookUrl;
         }
 
         return $this->client->call(Client::METHOD_GET, $path, [
@@ -82,28 +85,31 @@ class Finder extends Service
         ], $params);
     }
 
-     /**
-     * Linkedin finder
+    /**
+     * LinkedIn Finder
      *
-     * This API endpoint generates or retrieves the most likely email address from a Linkedin URL.
+     * Generates or retrieves the most likely email address from a LinkedIn URL.
      *
-     * @param string $url
+     * @see https://docs.tomba.io/api/finder#linkedin-finder
+     *
+     * @param string $url LinkedIn profile URL
+     * @param string|null $webhookUrl Webhook URL for async notifications
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
-    public function linkedinFinder(string $url): array
+    public function linkedinFinder(string $url, string $webhookUrl = null): array
     {
-        if (!isset($url)) {
+        if (empty($url)) {
             throw new TombaException('Missing required parameter: "url"');
         }
 
-
-        $path   = str_replace([], [], '/linkedin');
+        $path   = '/linkedin';
         $params = [];
 
-        
-        if (!is_null($url)) {
-            $params['url'] = $url;
+        $params['url'] = $url;
+
+        if (!is_null($webhookUrl)) {
+            $params['webhook_url'] = $webhookUrl;
         }
 
         return $this->client->call(Client::METHOD_GET, $path, [
@@ -111,23 +117,32 @@ class Finder extends Service
         ], $params);
     }
 
-     /**
+    /**
      * Phone Finder
      *
-     * Search phone are based on the email You give one email and it returns phone data
+     * Search phone data based on the email address provided.
      *
-     * @param string $email
+     * @see https://docs.tomba.io/api/finder#phone-finder
+     *
+     * @param string $email Email address to search phone for
+     * @param string|null $webhookUrl Webhook URL for async notifications
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
-    public function phoneFinder(string $email): array
+    public function phoneFinder(string $email, string $webhookUrl = null): array
     {
-        if (!isset($email)) {
+        if (empty($email)) {
             throw new TombaException('Missing required parameter: "email"');
         }
 
-        $path   = str_replace(['{email}'], [$email], '/phone/{email}');
+        $path   = '/phone-finder';
         $params = [];
+
+        $params['email'] = $email;
+
+        if (!is_null($webhookUrl)) {
+            $params['webhook_url'] = $webhookUrl;
+        }
 
         return $this->client->call(Client::METHOD_GET, $path, [
             'content-type' => 'application/json',

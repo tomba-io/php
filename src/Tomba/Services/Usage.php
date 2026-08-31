@@ -2,23 +2,25 @@
 
 namespace Tomba\Services;
 
-use Tomba\TombaException;
 use Tomba\Client;
 use Tomba\Service;
+use Tomba\TombaException;
 
 class Usage extends Service
 {
     /**
-     * get Usage
+     * Get Usage
      *
-     * Returns a your monthly requests
+     * Returns your monthly API request usage.
      *
+     * @see https://docs.tomba.io/api/account#retrieve-api-usage#get-usage
+     *
+     * @return array API response
      * @throws TombaException
-     * @return array
      */
     public function getUsage(): array
     {
-        $path   = str_replace([], [], '/usage');
+        $path   = '/usage';
         $params = [];
 
         return $this->client->call(Client::METHOD_GET, $path, [

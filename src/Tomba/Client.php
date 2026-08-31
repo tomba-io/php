@@ -4,15 +4,15 @@ namespace Tomba;
 
 class Client
 {
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
-    const METHOD_PATCH = 'PATCH';
-    const METHOD_DELETE = 'DELETE';
-    const METHOD_HEAD = 'HEAD';
-    const METHOD_OPTIONS = 'OPTIONS';
-    const METHOD_CONNECT = 'CONNECT';
-    const METHOD_TRACE = 'TRACE';
+    public const METHOD_GET = 'GET';
+    public const METHOD_POST = 'POST';
+    public const METHOD_PUT = 'PUT';
+    public const METHOD_PATCH = 'PATCH';
+    public const METHOD_DELETE = 'DELETE';
+    public const METHOD_HEAD = 'HEAD';
+    public const METHOD_OPTIONS = 'OPTIONS';
+    public const METHOD_CONNECT = 'CONNECT';
+    public const METHOD_TRACE = 'TRACE';
 
     /**
      * Is Self Signed Certificates Allowed?
@@ -123,7 +123,7 @@ class Client
      * @return array|string
      * @throws TombaException
      */
-    public function call($method, $path = '', $headers = array(), array $params = array())
+    public function call($method, $path = '', $headers = [], array $params = [])
     {
         $headers            = array_merge($this->headers, $headers);
         $ch                 = curl_init($this->endpoint . $path . (($method == self::METHOD_GET && !empty($params)) ? '?' . http_build_query($params) : ''));
@@ -153,6 +153,7 @@ class Client
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 120);
         curl_setopt($ch, CURLOPT_USERAGENT, php_uname('s') . '-' . php_uname('r') . ':php-' . phpversion());
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -182,7 +183,7 @@ class Client
         $responseBody   = curl_exec($ch);
         $responseType   = $responseHeaders['content-type'] ?? '';
         $responseStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        
+
         switch (substr($responseType, 0, strpos($responseType, ';'))) {
             case 'application/json':
                 $responseBody = json_decode($responseBody, true);
@@ -192,7 +193,7 @@ class Client
         if (curl_errno($ch)) {
             throw new TombaException(curl_error($ch), $responseStatus, $responseBody);
         }
-        
+
         curl_close($ch);
 
         if ($responseStatus >= 400) {
@@ -202,7 +203,40 @@ class Client
                 throw new TombaException($responseBody, $responseStatus);
             }
         }
-        return $responseBody;
+        return ['data' => $responseBody, 'rate_limit' => $this->parseRateLimit($responseHeaders)];
+    }
+
+    /**
+     * Get rate limit information from the last API response headers.
+     *
+     * @param array $headers
+     * @return array
+     */
+    public function getRateLimit(array $headers)
+    {
+        return $this->parseRateLimit($headers);
+    }
+
+    /**
+     * Parse rate limit headers from an API response.
+     *
+     * @param array $headers
+     * @return array
+     */
+    private function parseRateLimit(array $headers)
+    {
+        return [
+            'x-second-rate-limit' => isset($headers['x-second-rate-limit']) ? (int) $headers['x-second-rate-limit'] : null,
+            'x-minute-rate-limit' => isset($headers['x-minute-rate-limit']) ? (int) $headers['x-minute-rate-limit'] : null,
+            'x-daily-rate-limit' => isset($headers['x-daily-rate-limit']) ? (int) $headers['x-daily-rate-limit'] : null,
+            'x-minute-request-left' => isset($headers['x-minute-request-left']) ? (int) $headers['x-minute-request-left'] : null,
+            'x-daily-request-left' => isset($headers['x-daily-request-left']) ? (int) $headers['x-daily-request-left'] : null,
+            'x-minute-reset-seconds' => isset($headers['x-minute-reset-seconds']) ? (int) $headers['x-minute-reset-seconds'] : null,
+            'x-daily-reset-seconds' => isset($headers['x-daily-reset-seconds']) ? (int) $headers['x-daily-reset-seconds'] : null,
+            'retry-after' => isset($headers['retry-after']) ? (int) $headers['retry-after'] : null,
+            'ratelimit-policy' => $headers['ratelimit-policy'] ?? null,
+            'ratelimit' => $headers['ratelimit'] ?? null,
+        ];
     }
 
     /**

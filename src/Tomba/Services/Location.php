@@ -6,26 +6,26 @@ use Tomba\Client;
 use Tomba\Service;
 use Tomba\TombaException;
 
-class Count extends Service
+class Location extends Service
 {
     /**
-     * Email Count
+     * Get Location
      *
-     * Returns the total number of email addresses found for a given domain.
+     * Returns the geographic location information for a given domain.
      *
-     * @see https://docs.tomba.io/api/finder#email-count#email-count
+     * @see https://docs.tomba.io/api/finder#location#get-location
      *
-     * @param string $domain Domain name to count emails for
+     * @param string $domain Domain name to retrieve location for
      * @return array API response
      * @throws TombaException
      */
-    public function emailCount(string $domain): array
+    public function getLocation(string $domain): array
     {
         if (empty($domain)) {
             throw new TombaException('Missing required parameter: "domain"');
         }
 
-        $path   = '/email-count';
+        $path   = '/location';
         $params = [];
 
         $params['domain'] = $domain;
