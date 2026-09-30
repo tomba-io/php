@@ -60,13 +60,20 @@ class LeadsLists extends Service
      *
      * @see https://docs.tomba.io/api/leads-lists#create-leads-list
      *
+     * @param string $name List name
      * @return array API response
      * @throws TombaException
      */
-    public function createList(): array
+    public function createList(string $name): array
     {
+        if (empty($name)) {
+            throw new TombaException('Missing required parameter: "name"');
+        }
+
         $path   = '/leads_lists';
         $params = [];
+
+        $params['name'] = $name;
 
         return $this->client->call(Client::METHOD_POST, $path, [
             'content-type' => 'application/json',
@@ -81,17 +88,24 @@ class LeadsLists extends Service
      * @see https://docs.tomba.io/api/leads-lists#update-leads-list
      *
      * @param string $id List ID
+     * @param string $name New list name
      * @return array API response
      * @throws TombaException
      */
-    public function updateListId(string $id): array
+    public function updateListId(string $id, string $name): array
     {
         if (empty($id)) {
             throw new TombaException('Missing required parameter: "id"');
         }
 
+        if (empty($name)) {
+            throw new TombaException('Missing required parameter: "name"');
+        }
+
         $path = '/leads_lists/' . $id;
         $params = [];
+
+        $params['name'] = $name;
 
         return $this->client->call(Client::METHOD_PUT, $path, [
             'content-type' => 'application/json',

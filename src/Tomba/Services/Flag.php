@@ -45,24 +45,36 @@ class Flag extends Service
      *
      * @see https://docs.tomba.io/api/flag#create-flag
      *
-     * @param string $email Email address to flag
-     * @param string|null $reason Optional reason for flagging
+     * @param string $flagType Flag type
+     * @param string $value Value to flag
+     * @param string $reason Reason for flagging
+     * @param string|null $comment Optional comment
      * @return array API response
      * @throws TombaException
      */
-    public function createFlag(string $email, ?string $reason = null): array
+    public function createFlag(string $flagType, string $value, string $reason, ?string $comment = null): array
     {
-        if (empty($email)) {
-            throw new TombaException('Missing required parameter: "email"');
+        if (empty($flagType)) {
+            throw new TombaException('Missing required parameter: "flagType"');
+        }
+
+        if (empty($value)) {
+            throw new TombaException('Missing required parameter: "value"');
+        }
+
+        if (empty($reason)) {
+            throw new TombaException('Missing required parameter: "reason"');
         }
 
         $path   = '/flag';
         $params = [];
 
-        $params['email'] = $email;
+        $params['flag_type'] = $flagType;
+        $params['value'] = $value;
+        $params['reason'] = $reason;
 
-        if (!is_null($reason)) {
-            $params['reason'] = $reason;
+        if (!is_null($comment)) {
+            $params['comment'] = $comment;
         }
 
         return $this->client->call(Client::METHOD_POST, $path, [
