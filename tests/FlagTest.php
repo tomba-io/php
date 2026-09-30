@@ -37,10 +37,10 @@ class FlagTest extends TestCase
         $this->assertIsArray($result);
     }
 
-    public function testCreateFlagMissingEmail(): void
+    public function testCreateFlagMissingFlagType(): void
     {
         $this->expectException(TombaException::class);
         $flag = new Flag(self::makeClient());
-        $flag->createFlag('');
+        $flag->createFlag('', 'test@example.com', 'spam');
     }
 }

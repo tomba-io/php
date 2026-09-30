@@ -48,6 +48,6 @@ class LeadsListsTest extends TestCase
     {
         $this->expectException(TombaException::class);
         $lists = new LeadsLists(self::makeClient());
-        $lists->updateListId('');
+        $lists->updateListId('', 'test');
     }
 }

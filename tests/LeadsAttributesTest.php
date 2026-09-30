@@ -48,6 +48,6 @@ class LeadsAttributesTest extends TestCase
     {
         $this->expectException(TombaException::class);
         $attrs = new LeadsAttributes(self::makeClient());
-        $attrs->updateLeadAttribute('');
+        $attrs->updateLeadAttribute('', 'test');
     }
 }
