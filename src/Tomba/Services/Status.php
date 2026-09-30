@@ -13,7 +13,7 @@ class Status extends Service
      *
      * Returns domain status indicating if it is a webmail or disposable domain.
      *
-     * @see https://docs.tomba.io/api/domain#domain-status#domain-status
+     * @see https://docs.tomba.io/api/domain#domain-status
      *
      * @param string $domain Domain name to check
      * @return array API response
@@ -40,7 +40,7 @@ class Status extends Service
      *
      * Auto-complete company names and retrieve logo and domain information.
      *
-     * @see https://docs.tomba.io/api/domain#domain-status#company-autocomplete
+     * @see https://docs.tomba.io/api/domain-suggestions#get-domain-suggestions
      *
      * @param string $query Company name search query
      * @return array API response

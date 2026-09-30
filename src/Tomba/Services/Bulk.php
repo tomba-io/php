@@ -89,7 +89,7 @@ class Bulk extends Service
      *
      * Create a new bulk task for the given type.
      *
-     * @see https://docs.tomba.io/api/bulk-task
+     * @see https://docs.tomba.io/api/bulks
      *
      * @param string $type Bulk type (e.g., "finder", "verifier")
      * @param array $data Bulk task data
@@ -120,7 +120,7 @@ class Bulk extends Service
      *
      * Launch (start processing) a bulk task by type and ID.
      *
-     * @see https://docs.tomba.io/api/bulk-task
+     * @see https://docs.tomba.io/api/bulks
      *
      * @param string $type Bulk type (e.g., "finder", "verifier")
      * @param int $id Bulk task ID
@@ -148,7 +148,7 @@ class Bulk extends Service
      *
      * Delete a bulk task by type and ID.
      *
-     * @see https://docs.tomba.io/api/bulk-task
+     * @see https://docs.tomba.io/api/bulks
      *
      * @param string $type Bulk type (e.g., "finder", "verifier")
      * @param int $id Bulk task ID
@@ -176,7 +176,7 @@ class Bulk extends Service
      *
      * Archive a bulk task by type and ID.
      *
-     * @see https://docs.tomba.io/api/bulk-task
+     * @see https://docs.tomba.io/api/bulks
      *
      * @param string $type Bulk type (e.g., "finder", "verifier")
      * @param int $id Bulk task ID
@@ -204,7 +204,7 @@ class Bulk extends Service
      *
      * Rename a bulk task by type and ID.
      *
-     * @see https://docs.tomba.io/api/bulk-task
+     * @see https://docs.tomba.io/api/bulks
      *
      * @param string $type Bulk type (e.g., "finder", "verifier")
      * @param int $id Bulk task ID
